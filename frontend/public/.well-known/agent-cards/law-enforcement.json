@@ -1,0 +1,51 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "version": "1.0.0",
+  "name": "Modus Ops \u2014 Law Enforcement",
+  "role": "Investigator",
+  "description": "Primary investigative agent of the Modus Ops adversarial AI justice engine. Performs transaction tracing, wallet clustering, Benford's Law analysis, and timeline reconstruction. Surfaces raw evidentiary findings to the DA for prosecution and to the Judge for final adjudication.",
+  "image": "https://modusops.xyz/agents/law-enforcement.png",
+  "wallet": "0xB58DA4D1A9B5c150CF2a7077bf5d5ec8a7b205ad",
+  "services": [
+    {
+      "id": "modus-ops-le-v1",
+      "endpoint": "https://modusops.xyz/mcp/law-enforcement",
+      "protocol": "MCP",
+      "capabilities": [
+        "investigate",
+        "trace",
+        "benford-analysis",
+        "timeline"
+      ]
+    }
+  ],
+  "trust_models": [
+    "adversarial-panel",
+    "on-chain-audit"
+  ],
+  "jurisdiction": {
+    "countries": [
+      "US"
+    ],
+    "notice": "This agent operates exclusively under United States federal law. It is not licensed for use in any other jurisdiction. Unauthorized use outside the United States may violate local laws and regulations. The operator assumes no liability for use outside the US.",
+    "governing_law": "United States Federal Law",
+    "applicable_statutes": [
+      "Bank Secrecy Act (BSA), 31 U.S.C. \u00a7 5311",
+      "USA PATRIOT Act, Pub. L. 107-56",
+      "Anti-Money Laundering Act of 2020",
+      "Securities Exchange Act of 1934",
+      "18 U.S.C. \u00a7 1956 (Money Laundering)"
+    ]
+  },
+  "chain": {
+    "network": "arbitrum-one",
+    "chain_id": 42161,
+    "audit_network": "arbitrum-sepolia",
+    "audit_chain_id": 421614,
+    "erc8004_registry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "erc8004_agent_id": 1417
+  },
+  "project": "Modus Ops",
+  "project_url": "https://modusops.xyz",
+  "built_for": "ETHOnline 2026 \u2014 Arbitrum Track"
+}

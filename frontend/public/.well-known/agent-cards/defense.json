@@ -1,0 +1,51 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "version": "1.0.0",
+  "name": "Modus Ops \u2014 Defense Attorney",
+  "role": "Defense",
+  "description": "Red-team adversarial agent of the Modus Ops justice engine. Steelmans every defense available under US federal law \u2014 challenging evidentiary chain-of-custody, statistical methodology, and prosecutorial overreach \u2014 to ensure the Judge's verdict withstands the highest legal scrutiny.",
+  "image": "https://modusops.xyz/agents/defense.png",
+  "wallet": "0x2c9Fff256C43d387AeB7b61e0e0B40c255c1497A",
+  "services": [
+    {
+      "id": "modus-ops-defense-v1",
+      "endpoint": "https://modusops.xyz/mcp/defense",
+      "protocol": "MCP",
+      "capabilities": [
+        "defend",
+        "red-team",
+        "challenge-evidence",
+        "steelman"
+      ]
+    }
+  ],
+  "trust_models": [
+    "adversarial-panel",
+    "on-chain-audit"
+  ],
+  "jurisdiction": {
+    "countries": [
+      "US"
+    ],
+    "notice": "This agent operates exclusively under United States federal law. It is not licensed for use in any other jurisdiction. Unauthorized use outside the United States may violate local laws and regulations. The operator assumes no liability for use outside the US.",
+    "governing_law": "United States Federal Law",
+    "applicable_statutes": [
+      "Bank Secrecy Act (BSA), 31 U.S.C. \u00a7 5311",
+      "USA PATRIOT Act, Pub. L. 107-56",
+      "Anti-Money Laundering Act of 2020",
+      "Securities Exchange Act of 1934",
+      "18 U.S.C. \u00a7 1956 (Money Laundering)"
+    ]
+  },
+  "chain": {
+    "network": "arbitrum-one",
+    "chain_id": 42161,
+    "audit_network": "arbitrum-sepolia",
+    "audit_chain_id": 421614,
+    "erc8004_registry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "erc8004_agent_id": 1419
+  },
+  "project": "Modus Ops",
+  "project_url": "https://modusops.xyz",
+  "built_for": "ETHOnline 2026 \u2014 Arbitrum Track"
+}
