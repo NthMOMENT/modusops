@@ -1,27 +1,36 @@
+# Env / secrets
 .env
+*.env
+*.env.*
+!.env.example
 *.key
-node_modules/
-__pycache__/
-.next/
-out/
-*.pyc
-.DS_Store
+*.pem
+
+# Proprietary — never commit
+math_mcp/
+mcps/
+modgudr/
+backend/
+BACKGROUND/
+
+# Contracts
+contracts/broadcast/
 contracts/out/
 contracts/cache/
 contracts/lib/
-contracts/broadcast/
 contracts/src/Counter.sol
 contracts/script/Counter.s.sol
 contracts/test/Counter.t.sol
-BACKGROUND/
-# Proprietary — never commit
-math_mcp/
-modgudr/
-backend/
-*.env*
-!.env.example
-contracts/broadcast/
-contracts/src/Counter.sol
-contracts/script/Counter.s.sol
-contracts/test/Counter.t.sol
-BACKGROUND/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+
+# OS
+.DS_Store

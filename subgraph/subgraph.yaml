@@ -1,0 +1,26 @@
+specVersion: 0.0.5
+description: Modus Ops verdict subgraph — indexes VerdictLogged events on Arbitrum One
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ModusOpsVerdict
+    network: arbitrum-one
+    source:
+      address: "0x0000000000000000000000000000000000000000"
+      abi: ModusOpsVerdict
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Case
+        - VerdictLog
+      abis:
+        - name: ModusOpsVerdict
+          file: ./abis/ModusOpsVerdict.json
+      eventHandlers:
+        - event: VerdictLogged(string,bytes32,uint256,uint8)
+          handler: handleVerdictLogged
+      file: ./src/mapping.ts

@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+langgraph
+langchain
+langchain-openai
+openai
+pydantic
+python-dotenv
+unstructured[pdf]
+web3

@@ -1,0 +1,19 @@
+type Case @entity {
+  id: ID!
+  caseId: String!
+  timestamp: BigInt!
+  verdict: String!
+  confidenceScore: Int!
+  jurisdiction: String!
+  txHash: Bytes!
+}
+
+type VerdictLog @entity {
+  id: ID!
+  case: Case!
+  findingHash: Bytes!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  agentToken: BigInt!
+  timestamp: BigInt!
+}

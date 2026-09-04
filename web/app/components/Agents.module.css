@@ -1,0 +1,73 @@
+.section {
+  padding: 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.28em;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cell {
+  background: var(--bg-cell);
+  border-top: 2px solid var(--border-2);
+  padding: 1.25rem 1rem;
+  transition: border-top-color 0.2s ease;
+}
+
+.cell:hover {
+  border-top-color: var(--blue);
+}
+
+.role {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.5rem;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  margin-bottom: 0.5rem;
+}
+
+.name {
+  font-family: var(--font-barlow);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 0.53rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.id {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.5rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}

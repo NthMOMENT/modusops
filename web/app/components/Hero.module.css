@@ -1,0 +1,50 @@
+.hero {
+  padding: 3rem 1.5rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 2rem;
+}
+
+.identityRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+}
+
+.wordmark {
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 11vw, 6.5rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.wordmark span {
+  display: block;
+  color: var(--blue);
+}
+
+.tagline {
+  font-family: var(--font-barlow);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  font-size: 1.05rem;
+  max-width: 52ch;
+}

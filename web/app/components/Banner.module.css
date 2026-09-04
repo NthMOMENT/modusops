@@ -1,0 +1,16 @@
+.banner {
+  width: 100%;
+  background: var(--alert-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.text {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.58rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--alert-text);
+}
