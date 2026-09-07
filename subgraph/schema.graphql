@@ -1,19 +1,26 @@
 type Case @entity {
-  id: ID!
+  id: ID!                    # caseId string
   caseId: String!
+  verdictHash: Bytes!
+  verdict: Int!              # 0=PROCEED 1=DISMISS 2=ESCALATE 3=REVIEW
+  confidenceScore: Int!      # 0–100
+  jurisdiction: Int!         # 0=LOCAL 1=STATE 2=FEDERAL
   timestamp: BigInt!
-  verdict: String!
-  confidenceScore: Int!
-  jurisdiction: String!
+  submitter: Bytes!
   txHash: Bytes!
+  blockNumber: BigInt!
+  verdictLogs: [VerdictLog!]! @derivedFrom(field: "caseRef")
 }
 
 type VerdictLog @entity {
-  id: ID!
-  case: Case!
-  findingHash: Bytes!
+  id: ID!                    # txHash-logIndex
+  caseRef: Case!
+  verdictHash: Bytes!
+  verdict: Int!
+  confidenceScore: Int!
+  jurisdiction: Int!
+  timestamp: BigInt!
+  submitter: Bytes!
   txHash: Bytes!
   blockNumber: BigInt!
-  agentToken: BigInt!
-  timestamp: BigInt!
 }

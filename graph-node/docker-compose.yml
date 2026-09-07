@@ -1,0 +1,42 @@
+version: '3'
+services:
+  ipfs:
+    image: ipfs/kubo:v0.18.1
+    restart: unless-stopped
+    volumes:
+      - ./data/ipfs:/data/ipfs
+    ports:
+      - "5001:5001"
+
+  postgres:
+    image: postgres:14
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: graph-node
+      POSTGRES_PASSWORD: let-me-in
+      POSTGRES_DB: graph-node
+      PGDATA: /data/postgres
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    volumes:
+      - ./data/postgres:/data/postgres
+
+  graph-node:
+    image: graphprotocol/graph-node:v0.35.1
+    restart: unless-stopped
+    depends_on:
+      - ipfs
+      - postgres
+    ports:
+      - "8010:8000"
+      - "8001:8001"
+      - "8020:8020"
+      - "8030:8030"
+      - "8040:8040"
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: "ipfs:5001"
+      ethereum: "arbitrum-one:https://arb1.arbitrum.io/rpc"
+      GRAPH_LOG: info

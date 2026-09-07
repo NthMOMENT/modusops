@@ -1,38 +1,40 @@
-import { BigInt } from "@graphprotocol/graph-ts";
-import { VerdictLogged } from "../generated/ModusOpsVerdict/ModusOpsVerdict";
-import { Case, VerdictLog } from "../generated/schema";
-
-const VERDICT_LABELS: string[] = ["PROCEED", "DISMISS", "ESCALATE", "REVIEW"];
+import { VerdictLogged } from "../generated/VerdictRegistry/VerdictRegistry"
+import { Case, VerdictLog } from "../generated/schema"
 
 export function handleVerdictLogged(event: VerdictLogged): void {
-  const caseId = event.params.caseId;
-  const findingHash = event.params.findingHash;
-  const timestamp = event.params.timestamp;
-  const verdictCode = event.params.verdict;
+  // caseId is `indexed string`, so the EVM only gives us its keccak256 hash
+  // (as Bytes) — not recoverable to the original string. Use the tx hash as
+  // the Case entity id (unique per tx) and store the hash as a hex string.
+  let entityId = event.transaction.hash.toHexString()
+  let caseIdHash = event.params.caseId.toHexString()
 
-  let caseEntity = Case.load(caseId);
+  // Upsert Case entity
+  let caseEntity = Case.load(entityId)
   if (caseEntity == null) {
-    caseEntity = new Case(caseId);
-    caseEntity.caseId = caseId;
-    caseEntity.confidenceScore = 0;
-    caseEntity.jurisdiction = "";
+    caseEntity = new Case(entityId)
   }
+  caseEntity.caseId          = caseIdHash
+  caseEntity.verdictHash     = event.params.verdictHash
+  caseEntity.verdict         = event.params.verdict
+  caseEntity.confidenceScore = event.params.confidenceScore
+  caseEntity.jurisdiction    = event.params.jurisdiction
+  caseEntity.timestamp       = event.params.timestamp
+  caseEntity.submitter       = event.params.submitter
+  caseEntity.txHash          = event.transaction.hash
+  caseEntity.blockNumber     = event.block.number
+  caseEntity.save()
 
-  caseEntity.timestamp = timestamp;
-  caseEntity.verdict = VERDICT_LABELS[verdictCode];
-  caseEntity.txHash = event.transaction.hash;
-  caseEntity.save();
-
-  const verdictLogId =
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-  const verdictLog = new VerdictLog(verdictLogId);
-  verdictLog.case = caseEntity.id;
-  verdictLog.findingHash = findingHash;
-  verdictLog.txHash = event.transaction.hash;
-  verdictLog.blockNumber = event.block.number;
-  // TODO: VerdictLogged does not currently emit an agent token id — the
-  // contract event needs an added param before this can be populated.
-  verdictLog.agentToken = BigInt.zero();
-  verdictLog.timestamp = timestamp;
-  verdictLog.save();
+  // Create VerdictLog entry (one per event)
+  let logId = event.transaction.hash.toHexString() + "-" + event.logIndex.toString()
+  let log = new VerdictLog(logId)
+  log.caseRef         = entityId
+  log.verdictHash     = event.params.verdictHash
+  log.verdict         = event.params.verdict
+  log.confidenceScore = event.params.confidenceScore
+  log.jurisdiction    = event.params.jurisdiction
+  log.timestamp       = event.params.timestamp
+  log.submitter       = event.params.submitter
+  log.txHash          = event.transaction.hash
+  log.blockNumber     = event.block.number
+  log.save()
 }
