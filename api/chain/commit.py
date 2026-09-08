@@ -4,12 +4,17 @@ Disabled gracefully when VERDICT_CONTRACT_ADDRESS is not set.
 """
 
 import hashlib
+from dotenv import load_dotenv
+load_dotenv('/root/modusops/api/.env')
 import json
 import os
 from typing import Optional
 
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
+try:
+    from web3.middleware import geth_poa_middleware
+except ImportError:
+    from web3.middleware import ExtraDataToPOAMiddleware as geth_poa_middleware
 
 _ABI = [
     {
@@ -77,21 +82,23 @@ class VerdictChainClient:
         verdict_hash_bytes32 = self._canonical_hash(verdict_obj)[:32]
 
         nonce = self.w3.eth.get_transaction_count(self.account.address)
-        tx = self.contract.functions.commitVerdict(
+        call = self.contract.functions.commitVerdict(
             case_id,
             verdict_hash_bytes32,
             verdict_int,
             confidence,
             jurisdiction_int,
-        ).build_transaction({
+        )
+        gas_estimate = call.estimate_gas({"from": self.account.address})
+        tx = call.build_transaction({
             "from":     self.account.address,
             "nonce":    nonce,
-            "gas":      200_000,
-            "gasPrice": self.w3.eth.gas_price,
+            "gas":      int(gas_estimate * 1.3),
+            "gasPrice": self.w3.eth.gas_price * 2,
         })
 
         signed = self.w3.eth.account.sign_transaction(tx, self.account.key)
-        tx_hash = self.w3.eth.send_raw_transaction(signed.rawTransaction)
+        tx_hash = self.w3.eth.send_raw_transaction(signed.raw_transaction)
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
 
         if receipt.status != 1:
