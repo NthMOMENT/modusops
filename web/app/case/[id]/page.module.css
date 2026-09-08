@@ -1,0 +1,152 @@
+.main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-2);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.jurisdiction {
+  color: var(--blue);
+}
+
+.title {
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-top: none;
+  background: var(--bg-surface);
+  position: relative;
+}
+
+.step:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.step.running {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+}
+
+.step.done {
+  background: var(--bg-cell);
+}
+
+.step.error {
+  border-color: #3a1a1a;
+  background: #1a0a0a;
+}
+
+.stepIndex {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  min-width: 1.5rem;
+}
+
+.stepBody {
+  flex: 1;
+}
+
+.stepName {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.stepStatus {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-2);
+}
+
+.step.running .stepStatus { color: var(--blue); }
+.step.done .stepStatus    { color: #4a9a6a; }
+.step.error .stepStatus   { color: #e05a5a; }
+
+.stepIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-2);
+}
+
+.step.running .stepIndicator { background: var(--blue); }
+.step.done .stepIndicator    { background: #4a9a6a; }
+.step.error .stepIndicator   { background: #e05a5a; }
+
+.verdictReady {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border: 1px solid #2a4a2a;
+  background: #0a1a0a;
+}
+
+.verdictReadyText {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #4a9a6a;
+  letter-spacing: 0.06em;
+}
+
+.verdictLink {
+  font-family: var(--font-barlow);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: #2a6a3a;
+  padding: 0.4rem 1rem;
+  text-decoration: none;
+}
+
+.verdictLink:hover { background: #3a8a4a; }
+
+.loading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  padding: 2rem 0;
+}
+
+.error {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #e05a5a;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #3a1a1a;
+  background: #1a0a0a;
+  margin-bottom: 1.5rem;
+}

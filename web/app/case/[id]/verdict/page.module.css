@@ -1,0 +1,155 @@
+.main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+.header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-2);
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.verdictRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.verdict {
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  font-size: 5rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.confidence {
+  margin-bottom: 0.5rem;
+}
+
+.confidenceNum {
+  font-family: var(--font-barlow);
+  font-weight: 300;
+  font-size: 3rem;
+  color: var(--text);
+  line-height: 1;
+}
+
+.confidenceLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-2);
+  letter-spacing: 0.08em;
+}
+
+.timestamp {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-2);
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-2);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.prose {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  letter-spacing: 0.04em;
+}
+
+.toggle:hover { border-color: var(--border-2); }
+
+.toggleIcon {
+  color: var(--text-2);
+  font-size: 1rem;
+}
+
+.expandedContent {
+  padding: 1rem;
+  background: var(--bg-cell);
+  border: 1px solid var(--border);
+  border-top: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.chainPanel {
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.chainRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.chainRow:last-child { border-bottom: none; }
+
+.chainKey {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+  min-width: 8rem;
+}
+
+.chainVal {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+a.chainVal:hover { color: var(--blue); }
+
+.loading, .error {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  padding: 2rem 0;
+}
+
+.error { color: #e05a5a; }

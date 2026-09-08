@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import ReticleIcon from './components/ReticleIcon';
-import CountdownTimer from './components/CountdownTimer';
+import Nav from './components/Nav';
 import styles from './page.module.css';
 import bannerStyles from './components/Banner.module.css';
 import heroStyles from './components/Hero.module.css';
-import countdownStyles from './components/Countdown.module.css';
+import statusStyles from './components/Status.module.css';
 import agentsStyles from './components/Agents.module.css';
 import footerStyles from './components/Footer.module.css';
 
@@ -43,6 +44,8 @@ export default function Home() {
         </span>
       </div>
 
+      <Nav />
+
       <main className={styles.main}>
         <section className={heroStyles.hero}>
           <div className={heroStyles.meta}>
@@ -61,15 +64,20 @@ export default function Home() {
           </p>
         </section>
 
-        <section className={countdownStyles.section}>
-          <div className={countdownStyles.sectionLabel}>System Initializing</div>
-          <div className={countdownStyles.statusRow}>
-            <span className={countdownStyles.dot} />
-            <span className={countdownStyles.statusText}>
-              Build phase begins September 4, 2026
-            </span>
+        <section className={statusStyles.section}>
+          <div className={statusStyles.sectionLabel}>System Status</div>
+          <div className={statusStyles.statusRow}>
+            <span className={statusStyles.dot} />
+            <span className={statusStyles.statusText}>System Online</span>
           </div>
-          <CountdownTimer />
+          <div className={statusStyles.ctaRow}>
+            <Link href="/case/new/" className={statusStyles.ctaPrimary}>
+              Submit Case File
+            </Link>
+            <Link href="/cases/" className={statusStyles.ctaSecondary}>
+              Case History
+            </Link>
+          </div>
         </section>
 
         <section className={agentsStyles.section}>

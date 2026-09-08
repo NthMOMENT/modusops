@@ -1,0 +1,96 @@
+.section {
+  padding: 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.28em;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.sectionLabel::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.statusText {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.ctaPrimary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--bg);
+}
+
+.ctaPrimary:hover {
+  background: var(--bg);
+  color: var(--blue);
+}
+
+.ctaSecondary {
+  color: var(--text);
+  background: transparent;
+}
+
+.ctaSecondary:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}

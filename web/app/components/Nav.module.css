@@ -1,0 +1,39 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.wordmark {
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+}
+
+.link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+}
+
+.link:hover {
+  color: var(--text);
+}
