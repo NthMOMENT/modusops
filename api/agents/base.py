@@ -14,6 +14,11 @@ from openai import OpenAI
 
 logger = logging.getLogger("modusops.agents.base")
 
+# Suppress httpx request logging — it prints the full request URL, which
+# would leak the LLM provider's domain into logs.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpx2").setLevel(logging.WARNING)
+
 _REQUIRED_ENV_VARS = ("CUSTOM_LLM_BASE_URL", "CUSTOM_LLM_API_KEY", "CUSTOM_LLM_MODEL")
 
 
@@ -28,14 +33,14 @@ def _require_env(name: str) -> str:
 
 
 def get_llm_client() -> OpenAI:
-    load_dotenv()
+    load_dotenv('/root/modusops/api/.env')
     base_url = _require_env("CUSTOM_LLM_BASE_URL")
     api_key = _require_env("CUSTOM_LLM_API_KEY")
     return OpenAI(base_url=base_url, api_key=api_key)
 
 
 def get_model_id() -> str:
-    load_dotenv()
+    load_dotenv('/root/modusops/api/.env')
     return _require_env("CUSTOM_LLM_MODEL")
 
 
@@ -46,6 +51,7 @@ def call_llm(system_prompt: str, user_message: str, temperature: float = 0.3) ->
     response = client.chat.completions.create(
         model=model,
         temperature=temperature,
+        max_tokens=384000,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
