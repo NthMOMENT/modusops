@@ -5,6 +5,7 @@ ERC-8004 token 1419 (see CLAUDE.md Agent Token Registry).
 
 import hashlib
 import logging
+import re
 import time
 
 from api.agents.base import call_llm
@@ -38,38 +39,77 @@ EVIDENTIARY GAPS:
 """
 
 
+CONFIDENCE_RE = re.compile(r"confidence\s*:\**\s*(-?\d+)", re.IGNORECASE)
+VALID_VERDICTS = {"PROCEED", "DISMISS", "ESCALATE", "REVIEW"}
+VALID_JURISDICTIONS = {"LOCAL", "STATE", "FEDERAL"}
+
+
+def _strip_markdown(line: str) -> str:
+    return line.strip().lstrip("*#- ").rstrip("*")
+
+
 def parse_judge_response(response: str, state: dict) -> dict:
     verdict = "REVIEW"
     confidence = 50
+    confidence_found = False
     jurisdiction = state.get("jurisdiction", "FEDERAL")
     summary_lines: list[str] = []
 
     lines = response.splitlines()
     section = None
 
-    for line in lines:
-        if line.startswith("VERDICT:"):
-            verdict = line.split("VERDICT:", 1)[1].strip()
+    for raw_line in lines:
+        line = _strip_markdown(raw_line)
+        line_upper = line.upper()
+
+        if line_upper.startswith("VERDICT:"):
+            verdict = line.split(":", 1)[1].strip().strip("*").strip().upper()
             section = None
-        elif line.startswith("CONFIDENCE:"):
-            raw = line.split("CONFIDENCE:", 1)[1].strip()
-            try:
-                confidence = int("".join(c for c in raw if c.isdigit()) or 50)
-            except ValueError:
-                confidence = 50
+        elif line_upper.startswith("CONFIDENCE:"):
+            match = CONFIDENCE_RE.search(line)
+            if match:
+                confidence = max(0, min(100, int(match.group(1))))
+                confidence_found = True
+            else:
+                logger.warning(
+                    "node=judge case_id=%s could not parse CONFIDENCE from line=%r — defaulting to %d",
+                    state.get("case_id"), raw_line, confidence,
+                )
             section = None
-        elif line.startswith("JURISDICTION_CONFIRMED:"):
-            jurisdiction = line.split("JURISDICTION_CONFIRMED:", 1)[1].strip() or jurisdiction
+        elif line_upper.startswith("JURISDICTION_CONFIRMED:"):
+            jurisdiction = line.split(":", 1)[1].strip().strip("*").strip().upper() or jurisdiction
             section = None
-        elif line.startswith("JUDICIAL SUMMARY:"):
+        elif line_upper.startswith("JUDICIAL SUMMARY:"):
             section = "summary"
-            remainder = line.split("JUDICIAL SUMMARY:", 1)[1].strip()
+            remainder = line.split(":", 1)[1].strip()
             if remainder:
                 summary_lines.append(remainder)
-        elif line.startswith("EVIDENTIARY GAPS:"):
+        elif line_upper.startswith("EVIDENTIARY GAPS:"):
             section = None
         elif section == "summary":
-            summary_lines.append(line)
+            summary_lines.append(raw_line)
+
+    if not confidence_found:
+        logger.warning(
+            "node=judge case_id=%s no CONFIDENCE line found in judge response — defaulting to %d",
+            state.get("case_id"), confidence,
+        )
+    if verdict not in VALID_VERDICTS:
+        logger.warning(
+            "node=judge case_id=%s unrecognized verdict=%r — defaulting to REVIEW",
+            state.get("case_id"), verdict,
+        )
+        verdict = "REVIEW"
+    if jurisdiction not in VALID_JURISDICTIONS:
+        logger.warning(
+            "node=judge case_id=%s unrecognized jurisdiction=%r — defaulting to FEDERAL",
+            state.get("case_id"), jurisdiction,
+        )
+        jurisdiction = "FEDERAL"
+    logger.info(
+        "node=judge case_id=%s parsed verdict=%s confidence_score=%d",
+        state.get("case_id"), verdict, confidence,
+    )
 
     judicial_summary = "\n".join(summary_lines).strip()
 
