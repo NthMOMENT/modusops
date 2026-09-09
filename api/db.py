@@ -1,5 +1,6 @@
 import json
-import os
+import logging
+from pathlib import Path
 from typing import Optional
 
 from sqlalchemy import Column, Integer, String, Text, create_engine
@@ -7,8 +8,16 @@ from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 from api.models.verdict import VerdictObject
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "cases.db")
-DATABASE_URL = f"sqlite:///{DB_PATH}"
+logger = logging.getLogger("modusops.db")
+
+# Absolute path anchored to this file's location — independent of the
+# process's CWD, so it resolves the same whether uvicorn is launched from
+# ~/modusops or ~/modusops/api.
+DB_PATH = Path(__file__).parent / "cases.db"
+DATABASE_URL = f"sqlite:///{DB_PATH.resolve()}"
+
+logger.info("[DB] resolved database path: %s", DB_PATH.resolve())
+print(f"[DB] resolved database path: {DB_PATH.resolve()}", flush=True)
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
