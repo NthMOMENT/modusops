@@ -75,7 +75,8 @@ def _run_case(case_id: str, documents_text: list[str]):
 @app.post("/api/cases", response_model=VerdictObject)
 def create_case(request: CaseRequest):
     case_id = request.case_id or str(uuid.uuid4())
-    return _run_case(case_id, request.documents_text)
+    docs = [request.description] + request.documents_text
+    return _run_case(case_id, docs)
 
 
 @app.post("/api/cases/upload", response_model=VerdictObject)
