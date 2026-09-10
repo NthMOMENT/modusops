@@ -38,10 +38,19 @@ export default function NewCase() {
     setSubmitting(true);
     setError('');
     try {
-      const form = new FormData();
-      form.append('narrative', narrative);
-      files.forEach(f => form.append('documents', f));
-      const res = await fetch(`${API}/cases`, { method: 'POST', body: form });
+      let res: Response;
+      if (files.length > 0) {
+        const form = new FormData();
+        form.append('description', narrative);
+        files.forEach(f => form.append('files', f));
+        res = await fetch(`${API}/api/cases/upload`, { method: 'POST', body: form });
+      } else {
+        res = await fetch(`${API}/api/cases`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description: narrative }),
+        });
+      }
       if (!res.ok) throw new Error(await res.text());
       const { case_id } = await res.json();
       router.push(`/case/${case_id}`);

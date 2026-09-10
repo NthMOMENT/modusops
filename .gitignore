@@ -26,6 +26,8 @@ contracts/test/Counter.t.sol
 __pycache__/
 *.pyc
 .venv/
+*.db
+*.db-journal
 
 # Node / Next.js
 node_modules/
@@ -35,3 +37,7 @@ out/
 # OS
 .DS_Store
 CLAUDE.md
+subgraph/build/
+subgraph/generated/
+subgraph/package-lock.json
+graph-node/

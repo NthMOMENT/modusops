@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Nav from '../../../components/Nav';
 import styles from './page.module.css';
 
@@ -26,14 +27,20 @@ const VERDICT_COLOR: Record<string, string> = {
   DISMISS: '#4a9a6a',
 };
 
-export default function VerdictClient({ caseId }: { caseId: string }) {
+export default function VerdictClient({ caseId: paramsCaseId }: { caseId: string }) {
+  const pathname = usePathname();
+  // Static export serves the same pre-rendered "placeholder" shell for every
+  // /case/{id}/verdict/ URL (see nginx config), so params.id is always
+  // "placeholder" — the real case ID must come from the browser's URL.
+  const caseId = pathname?.split('/')[2] ?? paramsCaseId;
+
   const [data, setData] = useState<Verdict | null>(null);
   const [error, setError] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     if (!caseId) return;
-    fetch(`${API}/cases/${caseId}/verdict`)
+    fetch(`${API}/api/cases/${caseId}/verdict`)
       .then(r => { if (!r.ok) throw new Error(`${r.status}`); return r.json(); })
       .then(setData)
       .catch(e => setError(e.message));

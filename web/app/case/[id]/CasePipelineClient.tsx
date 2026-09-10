@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '../../components/Nav';
 import styles from './page.module.css';
@@ -30,7 +31,13 @@ const STEP_LABELS: Record<string, string> = {
 
 const STEP_ORDER = ['law_enforcement', 'prosecutor', 'defense', 'judge'];
 
-export default function CasePipelineClient({ caseId }: { caseId: string }) {
+export default function CasePipelineClient({ caseId: paramsCaseId }: { caseId: string }) {
+  const pathname = usePathname();
+  // Static export serves the same pre-rendered "placeholder" shell for every
+  // /case/{id}/ URL (see nginx config), so params.id is always "placeholder"
+  // — the real case ID must come from the browser's URL.
+  const caseId = pathname?.split('/')[2] ?? paramsCaseId;
+
   const [data, setData] = useState<PipelineStatus | null>(null);
   const [error, setError] = useState('');
 
@@ -40,7 +47,7 @@ export default function CasePipelineClient({ caseId }: { caseId: string }) {
 
     async function poll() {
       try {
-        const res = await fetch(`${API}/cases/${caseId}/status`);
+        const res = await fetch(`${API}/api/cases/${caseId}/status`);
         if (!res.ok) throw new Error(`${res.status}`);
         const json = await res.json();
         if (!cancelled) {
