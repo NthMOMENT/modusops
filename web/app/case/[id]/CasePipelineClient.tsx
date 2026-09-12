@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '../../components/Nav';
 import styles from './page.module.css';
@@ -33,6 +33,7 @@ const STEP_ORDER = ['law_enforcement', 'prosecutor', 'defense', 'judge'];
 
 export default function CasePipelineClient({ caseId: paramsCaseId }: { caseId: string }) {
   const pathname = usePathname();
+  const router = useRouter();
   // Static export serves the same pre-rendered "placeholder" shell for every
   // /case/{id}/ URL (see nginx config), so params.id is always "placeholder"
   // — the real case ID must come from the browser's URL.
@@ -54,6 +55,8 @@ export default function CasePipelineClient({ caseId: paramsCaseId }: { caseId: s
           setData(json);
           if (json.status === 'running') {
             setTimeout(poll, 3000);
+          } else if (json.status === 'complete') {
+            router.push(`/case/${caseId}/verdict`);
           }
         }
       } catch (e: any) {

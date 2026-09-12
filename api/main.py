@@ -1,10 +1,10 @@
 import logging
+import threading
 import uuid
 from typing import Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from api import db
@@ -51,10 +51,7 @@ def _run_case(case_id: str, documents_text: list[str]):
         result = pipeline.invoke(initial_state)
     except Exception as e:
         logger.error("[PIPELINE ERROR] case_id=%s: %s", case_id, e)
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e), "case_id": case_id},
-        )
+        return
 
     verdict_obj = VerdictObject(**result["verdict"])
 
@@ -66,20 +63,19 @@ def _run_case(case_id: str, documents_text: list[str]):
         db.save_verdict(verdict_obj)
     except Exception:
         logger.exception("[DB ERROR] failed to save verdict case_id=%s", verdict_obj.case_id)
-        raise
+        return
     logger.info("[DB] save complete case_id=%s", verdict_obj.case_id)
 
-    return verdict_obj
 
-
-@app.post("/api/cases", response_model=VerdictObject)
+@app.post("/api/cases")
 def create_case(request: CaseRequest):
     case_id = request.case_id or str(uuid.uuid4())
     docs = [request.description] + request.documents_text
-    return _run_case(case_id, docs)
+    threading.Thread(target=_run_case, args=(case_id, docs), daemon=True).start()
+    return {"case_id": case_id, "status": "running"}
 
 
-@app.post("/api/cases/upload", response_model=VerdictObject)
+@app.post("/api/cases/upload")
 async def create_case_upload(files: list[UploadFile] = File(...), description: str = Form(...)):
     case_id = str(uuid.uuid4())
 
@@ -88,7 +84,8 @@ async def create_case_upload(files: list[UploadFile] = File(...), description: s
         file_bytes = await file.read()
         documents_text.append(extract_text_from_upload(file_bytes, file.filename))
 
-    return _run_case(case_id, documents_text)
+    threading.Thread(target=_run_case, args=(case_id, documents_text), daemon=True).start()
+    return {"case_id": case_id, "status": "running"}
 
 
 @app.get("/api/cases", response_model=list[VerdictObject])
