@@ -82,7 +82,7 @@ export default function VerdictClient({ caseId: paramsCaseId }: { caseId: string
             </div>
           </div>
           <div className={styles.timestamp}>
-            {new Date(data.timestamp).toUTCString()}
+            {new Date(Number(data.timestamp) * 1000).toUTCString()}
           </div>
         </div>
 
