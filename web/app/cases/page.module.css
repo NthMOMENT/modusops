@@ -76,10 +76,10 @@
   border: 1px solid currentColor;
 }
 
-.v0 { color: #e05a5a; }
-.v1 { color: #4a9a6a; }
-.v2 { color: #e08a2a; }
-.v3 { color: var(--blue); }
+.vPROCEED { color: #e05a5a; }
+.vDISMISS { color: #4a9a6a; }
+.vESCALATE { color: #e08a2a; }
+.vREVIEW { color: var(--blue); }
 
 .state {
   font-family: var(--font-mono);
@@ -93,4 +93,12 @@
   font-size: 0.75rem;
   color: #e05a5a;
   padding: 2rem 0;
+}
+
+.footnote {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-2);
+  letter-spacing: 0.02em;
+  margin-top: 1.5rem;
 }
