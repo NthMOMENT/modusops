@@ -213,7 +213,7 @@ curl -X POST https://api.modusops.xyz/api/cases \
 
 ## Hackathon
 
-Built for [ETHOnline 2026](https://ethglobal.com/events/ethonline2026) and [Arbitrum Open House Singapore Online Buildathon](https://www.hackquest.io/hackathons/Arbitrum-Open-House-Singapore-Online-Buildathon).
+Built for [ETHOnline 2026](https://ethglobal.com/events/ethonline2026)
 
 Targeting: Arc · The Graph · Hedera · Bazantic · Arbitrum
 
